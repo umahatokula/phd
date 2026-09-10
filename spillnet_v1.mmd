@@ -1,0 +1,43 @@
+flowchart TB
+    subgraph ENC["Encoder — feature extraction"]
+        direction LR
+        A["Input\n224×224×3"] --> B["Conv 1\n32 · 3×3\nBN · ReLU"]
+        B --> C["Pool 1\n112×112×32"]
+        C --> D["Conv 2\n64 · 3×3\nBN · ReLU"]
+        D --> E["Pool 2\n56×56×64"]
+        E --> F["Conv 3\n128 · 3×3\nBN · ReLU"]
+        F --> G["Pool 3\n28×28×128"]
+        G --> H["Conv 4\n256 · 3×3\nBN · ReLU"]
+        H --> I["Pool 4\n14×14×256"]
+        I --> J["Conv 5\n512 · 3×3\nBN · ReLU"]
+        J --> K["Dropout\nrate=0.30\n7×7×512"]
+    end
+
+    subgraph DEC["Decoder — progressive upsampling"]
+        direction LR
+        L["Dec block 1\n256 · bilinear ×2\n→ 28×28×256"] --> M["Dec block 2\n128 · bilinear ×2\n→ 56×56×128"]
+        M --> N["Dec block 3\n64 · bilinear ×2\n→ 112×112×64"]
+        N --> O["Dec block 4\n32 · bilinear ×2\n→ 224×224×32"]
+        O --> P["Conv 1×1\n+ Softmax\n224×224×5"]
+    end
+
+    ENC --> DEC
+
+    style A fill:#B4B2A9,stroke:#5F5E5A,color:#2C2C2A
+    style B fill:#DBEAFE,stroke:#2980B9,color:#1A5276
+    style C fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style D fill:#DBEAFE,stroke:#2980B9,color:#1A5276
+    style E fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style F fill:#DBEAFE,stroke:#2980B9,color:#1A5276
+    style G fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style H fill:#DBEAFE,stroke:#2980B9,color:#1A5276
+    style I fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style J fill:#DBEAFE,stroke:#2980B9,color:#1A5276
+    style K fill:#FEF3C7,stroke:#D4AC0D,color:#854F0B
+    style L fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style M fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style N fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style O fill:#D5F5E3,stroke:#1D9E75,color:#085041
+    style P fill:#FDECEA,stroke:#C0392B,color:#7B241C
+    style ENC fill:#EBF5FB,stroke:#2980B9,color:#1A5276
+    style DEC fill:#E8F8F5,stroke:#1D9E75,color:#085041
