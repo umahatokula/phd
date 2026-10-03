@@ -1,1 +1,5 @@
 /oil_spill_data_augmentation/Oil_Spill_Detection _Dataset
+.venv/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat

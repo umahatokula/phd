@@ -1,0 +1,16 @@
+# Run:  docker compose up   then open http://localhost:8888 (token-free, bound to localhost only)
+services:
+  spillnet:
+    build: .
+    image: spillnet-tf:2.19
+    ports:
+      - "127.0.0.1:8888:8888"
+    environment:
+      SPILLNET_DATA_DIR: /data/Oil_Spill_Detection_Dataset
+      SPILLNET_MODEL_PATH: /tf/work/best_model.keras
+    volumes:
+      - .:/tf/work
+      - C:/Users/Umaha/Documents/phd/Oil_Spill_Detection_Dataset:/data/Oil_Spill_Detection_Dataset:ro
+    command: >
+      jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      --NotebookApp.token='' --ServerApp.token='' --notebook-dir=/tf/work
